@@ -2,7 +2,7 @@
   "name": "main",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "prefix": "angular-storybook",
+  "prefix": "df",
   "sourceRoot": "apps/main/src",
   "tags": [],
   "targets": {
@@ -89,6 +89,47 @@
       "executor": "@nrwl/web:file-server",
       "options": {
         "buildTarget": "main:build"
+      }
+    },
+    "storybook": {
+      "executor": "@storybook/angular:start-storybook",
+      "options": {
+        "port": 4400,
+        "configDir": "apps/main/.storybook",
+        "browserTarget": "main:build",
+        "compodoc": false
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true
+        }
+      }
+    },
+    "build-storybook": {
+      "executor": "@storybook/angular:build-storybook",
+      "outputs": ["{options.outputDir}"],
+      "options": {
+        "outputDir": "dist/storybook/main",
+        "configDir": "apps/main/.storybook",
+        "browserTarget": "main:build",
+        "compodoc": false
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true
+        }
+      }
+    },
+    "static-storybook": {
+      "executor": "@nrwl/web:file-server",
+      "options": {
+        "buildTarget": "main:build-storybook",
+        "staticFilePath": "dist/storybook/main"
+      },
+      "configurations": {
+        "ci": {
+          "buildTarget": "main:build-storybook:ci"
+        }
       }
     }
   }
